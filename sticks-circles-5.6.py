@@ -171,8 +171,14 @@ while button != 0:
     main_line = main_field(field)
     chek_kit = sum_lines(main_line)
     winner = chek_winner(chek_kit, benefit)
-    if ' ' not in main_line:
+    if ' ' not in main_line and not winner:
         print('Победителей нет!')
+        break
+    if ' ' not in main_line and winner == 'Attantion': 
+        print('Игра окончена!! Победил "X"')
+        break
+    if ' ' not in main_line and winner: 
+        print('Игра окончена!!', winner)
         break
     
     if winner:
