@@ -1,3 +1,6 @@
+import os
+from time import sleep
+
 def show_field(f):
     print(' ' + '___ ' * (size))
     for k in range(size):
@@ -32,19 +35,23 @@ def nums_field():
     return field
 
 
-def step():
+def step(mark):
+    
     while True:
         button = input('Введите № клетки (0 - выход из программы): ')
         if button != '0':
             if not button.isdigit():
                 print('Только цифры. Повторите ввод № клетки ')
+                print(f'Игра "до {R}". Ход выполняет "{mark}"')
                 continue
             button = int(button)
             if button == 0 or button < 10 or button % 10 == 0 or button % 10 > N or button // 10 > N:
                 print('Запрещенный символ. Повторите ввод № клетки ')
+                print(f'Игра "до {R}". Ход выполняет "{mark}"')
                 continue
             if field[int(button)] != ' ':
                 print('Клетка занята. Повторите ввод № клетки ')
+                print(f'Игра "до {R}". Ход выполняет "{mark}"')
                 continue
         return button
 
@@ -155,6 +162,7 @@ print(f'Правила: 1. Размер поля - высота и ширина 
 
 N = input('Ведите размер поля (от 3 до 9): ')
 while not (N.isdigit() and (3 <= int(N) <= 9)):
+    
     N = input('Повторите ввод размера поля (от 3 до 9): ')
 N = int(N)
 size = N + 1
@@ -164,21 +172,30 @@ else:
     R = 4
 field = nums_field()
 button = None
-count = 0
+count = 2
 benefit = False
 while button != 0:
+    os.system('cls')
+    if count % 2:
+        mark = 'O'
+    else:
+        mark = 'X'
+    print(f'Игра "до {R}". Ход выполняет "{mark}"')
     show_field(field)
     main_line = main_field(field)
     chek_kit = sum_lines(main_line)
     winner = chek_winner(chek_kit, benefit)
     if ' ' not in main_line and not winner:
         print('Победителей нет!')
+        sleep(10)
         break
     if ' ' not in main_line and winner == 'Attantion': 
         print('Игра окончена!! Победил "X"')
+        sleep(10)
         break
     if ' ' not in main_line and winner: 
         print('Игра окончена!!', winner)
+        sleep(10)
         break
     
     if winner:
@@ -189,12 +206,14 @@ while button != 0:
             count += 1
         if winner == 'Ничья':
             print('Игра окончена!!', winner, '!!')
+            sleep(10)
             break
         elif winner == 'Победил "X"' or winner == 'Победил "O"':
             print('Игра окончена!!', winner, '. Поздравляю!!')
+            sleep(10)
             break
 
-    button = int(step())
+    button = int(step(mark))
 
     if benefit == 0:
         if count % 2:
